@@ -1,24 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import Axios from 'axios'
+import {useState, useEffect} from 'react'
+import Job from './components/Job.js';
 
 function App() {
+
+  
+
+  
+  const [Jobs, setJobs] = useState([])
+
+  useEffect(() => {
+    Axios.get('https://remotive.com/api/remote-jobs?search=front%20end')
+    .then(res => {
+      console.log(res.data.jobs)
+      setJobs(res.data.jobs)
+    }).catch(err => console.log(err))
+  }, [])
+  
+  const listItems = Jobs.map((job) => <Job key={job.id} job={job} />);
+
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+  
+   <div className="App">
+<ul>{listItems}</ul>
+     
+  
+  
+   </div>
+
+
+
+   
+    
+   
+   
   );
 }
 
